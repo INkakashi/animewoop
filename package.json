@@ -10,7 +10,25 @@
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-session": "^1.18.2",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
-  }
+    "mongoose": "^8.17.1",
+    "morgan": "~1.9.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INkakashi/animewoop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/INkakashi/animewoop/issues"
+  },
+  "homepage": "https://github.com/INkakashi/animewoop#readme",
+  "description": ""
 }
