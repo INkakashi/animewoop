@@ -17,6 +17,13 @@ router.get('/login', function(req, res, next) {
 router.get('/register',function(req,res,next){
   res.render('register')
 })
+router.get('/logout',function(req,res,next){
+  req.logout(function(err){
+    if(err) {return next(err);}
+    res.redirect('/login')
+  })
+
+})
 router.post('/register', function(req,res,next){
   const userdata = new userModel({
     username: req.body.username,
@@ -29,10 +36,12 @@ router.post('/register', function(req,res,next){
       })
     })
 })
-router.post("/login", passport.authenticate("local",{
+router.post("/ login", passport.authenticate("local",{
   successRedirect: "/",
   failureRedirect: "/login"
 }),function(req,res){})
+
+
 
 function isLoggedIn(req,res,next){
   if (req.isAuthenticated()){
