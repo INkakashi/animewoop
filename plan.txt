@@ -1,0 +1,9 @@
+basic steps:
+1 autherisation
+2 home
+3 profile
+4 dataabase model
+5 anime updates 
+6 chats
+7 feeds
+

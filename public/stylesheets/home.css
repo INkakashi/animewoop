@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #fafafa;
+  }
+  
+  .insta-header {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 24px;
+  }
+  
+  .feed-container {
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .post {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .username {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .post-img {
+    width: 100%;
+    display: block;
+  }
+  
+  .post-actions {
+    padding: 10px;
+    font-size: 20px;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .post-actions i {
+    cursor: pointer;
+  }
+  
+  .post-caption {
+    padding: 0 10px 15px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  

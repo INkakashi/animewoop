@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chat UI (HTML + CSS only)</title>
+<style>
+  :root{
+    --bg: #0f1115;
+    --panel: #151922;
+    --panel-2:#0b0e14;
+    --text: #e6e9ef;
+    --muted:#9aa3b2;
+    --accent:#5ac8fa;
+    --me:#2b8a3e;
+    --them:#2a3350;
+    --ring:#2b86ff33;
+    --shadow: 0 8px 24px rgba(0,0,0,.35);
+    --radius:14px;
+  }
+
+  *{box-sizing: border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background: radial-gradient(1200px 800px at 20% -10%, #1a2130 0%, transparent 60%) no-repeat,
+                radial-gradient(1000px 700px at 120% 0%, #112033 0%, transparent 55%) no-repeat,
+                var(--bg);
+    color:var(--text);
+    font: 15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  }
+
+  .app{
+    max-width: 1100px;
+    margin: clamp(8px, 2.5vh, 24px) auto;
+    height: calc(100vh - clamp(16px, 5vh, 48px));
+    display:grid;
+    grid-template-columns: 280px 1fr;
+    gap: 16px;
+    padding: 8px;
+  }
+
+  /* LEFT: conversations / members */
+  .sidebar{
+    background: linear-gradient(180deg, #161a25 0%, #141827 100%);
+    border: 1px solid #22283a;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    padding:16px 14px; border-bottom:1px solid #20273a;
+    background: linear-gradient(90deg, #151a24, #131826);
+  }
+  .logo{
+    width:34px; height:34px; border-radius:10px;
+    background: linear-gradient(135deg, #5ac8fa, #a78bfa);
+    box-shadow: 0 6px 20px #5ac8fa33;
+  }
+  .brand h1{font-size:16px; margin:0}
+  .search{
+    padding:10px 12px; border-bottom:1px solid #20273a;
+  }
+  .search input{
+    width:100%; padding:10px 12px; border:1px solid #21283a; outline:0;
+    background:#0f1422; color:var(--text); border-radius:12px;
+  }
+  .rooms{padding:10px; overflow:auto}
+  .room{
+    display:flex; align-items:center; gap:10px;
+    padding:10px; border-radius:12px; cursor:default;
+  }
+  .room:hover{background:#12182a}
+  .room.active{background:#0f172a; outline:1px solid #223255}
+  .avatar{
+    width:36px; height:36px; border-radius:50%;
+    display:grid; place-items:center; font-weight:700;
+    color:white;
+    background: linear-gradient(135deg, #394867, #546e7a);
+  }
+  .avatar.me{background: linear-gradient(135deg, #2dbb75, #0ea359)}
+  .meta{display:flex; flex-direction:column}
+  .meta b{font-size:14px}
+  .meta span{font-size:12px; color:var(--muted)}
+
+  /* RIGHT: chat */
+  .chat{
+    background: linear-gradient(180deg, #0f1320 0%, #0c111d 100%);
+    border: 1px solid #22283a;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    display:grid;
+    grid-template-rows: auto 1fr auto;
+    overflow:hidden;
+  }
+  .chat .topbar{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 14px; border-bottom:1px solid #20273a;
+    background: linear-gradient(90deg, #0f1422, #0f1220);
+    position: sticky; top:0;
+  }
+  .status-dot{
+    width:10px;height:10px;border-radius:50%;
+    background: #35d07f; box-shadow: 0 0 0 6px var(--ring);
+  }
+  .topbar .title{display:flex;flex-direction:column}
+  .topbar .title b{font-size:15px}
+  .topbar .title span{font-size:12px;color:var(--muted)}
+
+  .scroll{
+    padding: 16px 16px 24px;
+    overflow:auto;
+    scroll-behavior: smooth;
+    background:
+      radial-gradient(600px 120px at 50% 0%, #1a2240 0%, transparent 75%) no-repeat,
+      transparent;
+  }
+
+  .day{
+    text-align:center; margin:8px 0 16px;
+  }
+  .chip{
+    display:inline-block; padding:6px 10px; font-size:12px;
+    color:var(--muted); border:1px solid #20273a; border-radius:999px;
+    background:#0f1422;
+  }
+
+  .msg{
+    display:flex; gap:10px; margin:10px 0; max-width: min(72ch, 75%);
+  }
+  .msg.me{margin-left:auto; flex-direction: row-reverse}
+  .bubble{
+    padding:10px 12px; border-radius:14px;
+    background: var(--them); border:1px solid #2b3558;
+    position:relative;
+  }
+  .msg.me .bubble{
+    background: linear-gradient(180deg, #1c7d4f, #15633e);
+    border-color:#1c7d4f;
+  }
+  .name{
+    font-size:12px; color:var(--muted); margin:0 0 4px 2px;
+  }
+  .text{white-space:pre-wrap}
+  .time{
+    display:block; font-size:11px; color:var(--muted); margin-top:6px; text-align:right;
+  }
+
+  /* Tail pointers */
+  .bubble:after{
+    content:""; position:absolute; bottom:-2px; left:-6px;
+    border-width:6px 6px 0 0; border-style:solid;
+    border-color:#2b3558 transparent transparent transparent; filter:brightness(1.2);
+    transform: rotate(45deg);
+  }
+  .msg.me .bubble:after{
+    left:auto; right:-6px; border-color:#1c7d4f transparent transparent transparent;
+  }
+
+  /* Input (visual only) */
+  .inputbar{
+    display:flex; gap:10px; padding:12px; border-top:1px solid #20273a;
+    background: linear-gradient(0deg, #0f1422, #0f1320);
+  }
+  .inputbar input{
+    flex:1; padding:12px 14px; border-radius:12px; border:1px solid #223255;
+    background:#0b1020; color:var(--text); outline:0;
+  }
+  .inputbar button{
+    padding:12px 16px; border-radius:12px; border:1px solid #245c7a;
+    background: linear-gradient(180deg, #1b4965, #123d57);
+    color:white; font-weight:600; letter-spacing:.2px;
+  }
+  .hint{
+    font-size:12px; color:var(--muted); padding: 0 12px 12px;
+  }
+
+  /* Responsive */
+  @media (max-width: 860px){
+    .app{grid-template-columns: 1fr}
+    .sidebar{display:none}
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Nova Chat</h1>
+      </div>
+      <div class="search">
+        <input type="search" placeholder="Search chats…" aria-label="Search chats" />
+      </div>
+      <div class="rooms">
+        <div class="room active">
+          <div class="avatar">JS</div>
+          <div class="meta">
+            <b># general</b>
+            <span>Last message 2m ago</span>
+          </div>
+        </div>
+        <div class="room">
+          <div class="avatar me">ME</div>
+          <div class="meta">
+            <b>Design Team</b>
+            <span>New assets uploaded</span>
+          </div>
+        </div>
+        <div class="room">
+          <div class="avatar">AI</div>
+          <div class="meta">
+            <b>Anime Hub</b>
+            <span>Casting updates</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Chat panel -->
+    <section class="chat" aria-label="Chat window">
+      <div class="topbar">
+        <div class="status-dot" aria-hidden="true"></div>
+        <div class="title">
+          <b># general</b>
+          <span>4 members • typing…</span>
+        </div>
+      </div>
+
+      <div class="scroll">
+        <div class="day"><span class="chip">Today</span></div>
+
+       
+
+        
+        
+<% chat.forEach(function(elem){ %> 
+        <div class="msg">
+          <div class="avatar">JS</div>
+          <div>
+            <div class="name"><%= elem.user.username %></div>
+            <div class="bubble">
+              <div class="text"><%= elem.chat %></div>
+              <span class="time"><%= elem.date %></span>
+            </div>
+          </div>
+        </div>
+<% }) %>
+
+      </div>
+      <form action="/chat" method="post">
+      <div class="inputbar" role="group" aria-label="Message input (visual only)">
+        <input type="text" name="chat" placeholder="Type a message..." required />
+        <button type="submit">Send</button>
+      </div>
+      <div class="hint">This is a static demo with only HTML + CSS. Add JavaScript or a backend later to send/receive messages.</div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

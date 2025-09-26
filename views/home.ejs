@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animewoop Feed</title>
+  <link rel="stylesheet" href="/stylesheets/feed.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <header class="insta-header">
+    <h1>Animewoop</h1>
+  </header>
+
+  <main class="feed-container">
+    <!-- Post 1 -->
+    <% posts.forEach(function(elem){ %> 
+      <div class="post">
+        <div class="post-header">
+          <img src="/images/uploads/<%=elem.user.profileImage%>" class="avatar" alt="User 1" />
+          <p class="username"><%= elem.user.username %></p>
+        </div>
+        <img src="/images/uploads/<%=elem.picture%>" class="post-img" alt="Post Image" />
+        <div class="post-actions">
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-regular fa-comment"></i>
+          <i class="fa-regular fa-paper-plane"></i>
+        </div>
+        <div class="post-caption">
+          <strong><%= elem.user.username %></strong> <%=elem.caption%>
+        </div>
+      </div>
+  
+
+    <% }) %>
+    
+    <!-- Add more posts here -->
+  </main>
+</body>
+</html>
