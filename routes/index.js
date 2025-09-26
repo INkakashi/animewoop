@@ -24,7 +24,7 @@ router.get('/upload',function(res,req,next){
 })
 
 router.get('/feed',function(req,res,next){
-  res.render('feed')
+  res.render('home')
 })
 
 router.get('/chat',isLoggedIn, async function(req,res,next){
