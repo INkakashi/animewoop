@@ -3,12 +3,13 @@ var router = express.Router();
 const passport = require('passport')
 const userModel = require('./users')
 const chatModel = require('./chats')
+const postModel = require('./posts')
 const localStrategy = require('passport-local')
 
 passport.use(new localStrategy(userModel.authenticate()));
 /* GET home page. */
 router.get('/',isLoggedIn, function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('home');
 });
 
 router.get('/login', function(req, res, next) {
@@ -24,7 +25,8 @@ router.get('/upload',function(res,req,next){
 })
 
 router.get('/feed',function(req,res,next){
-  res.render('home')
+  const posts = postModel.find()
+  res.render('feed',{posts:posts})
 })
 
 router.get('/chat',isLoggedIn, async function(req,res,next){

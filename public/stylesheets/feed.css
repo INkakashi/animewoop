@@ -66,33 +66,3 @@ body {
     font-size: 14px;
     line-height: 1.4;
   }
-.navbar {
-      display: flex;
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: 0 4px 16px #a5b4fc99;
-      padding: 10px 0;
-      justify-content: center;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-    }
-    .nav-item {
-      margin: 0 30px;
-    }
-    .nav-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 1.2rem;
-      color: #6d28d9;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 50px;
-      transition: background 0.3s, color 0.3s, transform 0.18s;
-      font-family: 'Potta One', cursive;
-    }
-    .nav-link:hover, .nav-link.active {
-      background: linear-gradient(90deg, #f472b6 0%, #818cf8 100%);
-      color: #fff;
-      transform: scale(1.1) rotate(-1.5deg);
-    }

@@ -3,44 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Animewoop Feed</title>
-  <link rel="stylesheet" href="/stylesheets/home.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <title>Anime Home</title>
+  <!-- Google Fonts: Anime-style (Potta One for Japanese manga touch) -->
+  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #000000 0%, #000000 100%);
+      margin: 0;
+      font-family: 'Potta One', cursive, Arial, sans-serif;
+      color: #000000;
+    }
+    .navbar {
+      display: flex;
+      background: rgba(0, 0, 0, 0.85);
+      box-shadow: 0 4px 16px #a5b4fc99;
+      padding: 10px 0;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .nav-item {
+      margin: 0 30px;
+    }
+    .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1.2rem;
+      color: #6d28d9;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 50px;
+      transition: background 0.3s, color 0.3s, transform 0.18s;
+      font-family: 'Potta One', cursive;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: linear-gradient(90deg, #f472b6 0%, #818cf8 100%);
+      color: #fff;
+      transform: scale(1.1) rotate(-1.5deg);
+    }
+    .main-content {
+      background: rgba(0, 0, 0, 0.8);
+      margin: 48px auto 0;
+      max-width: 650px;
+      border-radius: 24px;
+      box-shadow: 0 4px 28px #818cf833;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      color: #f472b6;
+      margin-bottom: 0.6em;
+    }
+    .kawaii-img {
+      width: 92px;
+      margin-bottom: 1.2em;
+      border-radius: 50%;
+      border: 4px solid #818cf8;
+      box-shadow: 0 2px 26px #f472b625;
+    }
+    .accent {
+      color: #818cf8;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #6d28d9;
+    }
+  </style>
 </head>
 <body>
-  <header class="insta-header">
-    <h1>Animewoop</h1> 
-    <nav class="navbar">
-    <div class="nav-item"><a href="#profile" class="nav-link active">👤<span>Profile</span></a></div>
-    <div class="nav-item"><a href="#updates" class="nav-link">📰<span>Updates</span></a></div>
-    <div class="nav-item"><a href="#feed" class="nav-link">🧃<span>Feed</span></a></div>
-    <div class="nav-item"><a href="#chat" class="nav-link">💬<span>Chat</span></a></div>
+  <nav class="navbar">
+    <div class="nav-item"><a href="/profile" class="nav-link active">👤<span>Profile</span></a></div>
+    <div class="nav-item"><a href="/update" class="nav-link">📰<span>Updates</span></a></div>
+    <div class="nav-item"><a href="/feed" class="nav-link">🧃<span>Feed</span></a></div>
+    <div class="nav-item"><a href="/chat" class="nav-link">💬<span>Chat</span></a></div>
   </nav>
-  </header>
-
-  <main class="feed-container">
-    <!-- Post 1 -->
-    <% posts.forEach(function(elem){ %> 
-      <div class="post">
-        <div class="post-header">
-          <img src="/images/uploads/<%=elem.user.profileImage%>" class="avatar" alt="User 1" />
-          <p class="username"><%= elem.user.username %></p>
-        </div>
-        <img src="/images/uploads/<%=elem.picture%>" class="post-img" alt="Post Image" />
-        <div class="post-actions">
-          <i class="fa-regular fa-heart"></i>
-          <i class="fa-regular fa-comment"></i>
-          <i class="fa-regular fa-paper-plane"></i>
-        </div>
-        <div class="post-caption">
-          <strong><%= elem.user.username %></strong> <%=elem.caption%>
-        </div>
-      </div>
-  
-
-    <% }) %>
-    
-    <!-- Add more posts here -->
-  </main>
+  <div class="main-content">
+    <img class="kawaii-img" src="https://cdn.jsdelivr.net/gh/akabab/small-anime-pics/megumin.png" alt="Anime character">
+    <h1>ようこそ!<span class="accent"> Anime Home</span></h1>
+    <p>Explore your profile, see anime updates, enjoy the community feed, or join the chat! Customizable themes and more coming soon.</p>
+  </div>
 </body>
 </html>
