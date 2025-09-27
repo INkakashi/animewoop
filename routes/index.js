@@ -4,6 +4,7 @@ const passport = require('passport')
 const userModel = require('./users')
 const chatModel = require('./chats')
 const postModel = require('./posts')
+const upload = require('./multer')
 const localStrategy = require('passport-local')
 
 passport.use(new localStrategy(userModel.authenticate()));
@@ -20,12 +21,12 @@ router.get('/register',function(req,res,next){
   res.render('register')
 })
 
-router.get('/upload',function(res,req,next){
+router.get('/upload',function(req,res,next){
   res.render('upload')
 })
 
-router.get('/feed',function(req,res,next){
-  const posts = postModel.find()
+router.get('/feed', async function(req,res,next){
+  const posts = await postModel.find()
   res.render('feed',{posts:posts})
 })
 
@@ -57,6 +58,19 @@ router.post("/login", passport.authenticate("local",{
   successRedirect: "/",
   failureRedirect: "/login"
 }),function(req,res){})
+
+router.post('/upload',upload.single("image"),isLoggedIn,async function(req,res,next){
+  const user = await userModel.findOne({username:req.session.passport.user})
+  const post = await postModel.create({
+    picture: req.file.filename,
+    user: user._id,
+    caption: req.body.caption
+  })
+  user.post.push(post._id)
+  post.save()
+  res.redirect('/feed')
+
+})
 
 router.post('/chat', isLoggedIn, async function (req, res, next) {
   try {
